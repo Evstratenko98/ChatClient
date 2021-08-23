@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { useAuth } from "./hooks/useAuth";
 import { getInfoUser } from "./redux/actions/userActions";
 
+import PrivateRoute from "./components/router/privateRouter";
+
 function App() {
    const { token } = useAuth();
    const dispatch = useDispatch();
@@ -20,18 +22,10 @@ function App() {
    return (
       <BrowserRouter>
          <Switch>
-            <Route exact path="/">
-               {token ? <Redirect to="/home" /> : <Redirect to="/auth" />}
-            </Route>
-            <Route path="/home">
-               <Home />
-            </Route>
-            <Route path="/auth">
-               <Authorization />
-            </Route>
-            <Route path="/reg">
-               <Registration />
-            </Route>
+            <PrivateRoute exact path="/" component={Home} />
+            <PrivateRoute path="/home" component={Home} />
+            <Route path="/auth" component={Authorization} />
+            <Route path="/reg" component={Registration} />
          </Switch>
       </BrowserRouter>
    );

@@ -24,9 +24,15 @@ const Chat = () => {
 
       if (roomId) socket.emit("join", { username: user.username, roomId });
 
+      return socket.on("disconnect", { username: user.username, roomId });
+   }, [ENDPOINT]);
+
+   useEffect(() => {
+      const { username } = user;
+
       socket.on("message", ({ text, sender }) => {
          setNewSender(sender);
-         setMessages((messages) => [...messages, { text, sender }]);
+         setMessages((messages) => [...messages, { text: text }]);
       });
    }, []);
 
