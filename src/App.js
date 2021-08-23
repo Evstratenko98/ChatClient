@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
+import Authorization from "./pages/Autorization/Authorization";
+import Registration from "./pages/Registration/Registration";
+import Home from "./pages/Home/Home";
+
+import { useDispatch } from "react-redux";
+import { useAuth } from "./hooks/useAuth";
+import { getInfoUser } from "./redux/actions/userActions";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   const { token } = useAuth();
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      if (token) dispatch(getInfoUser(token));
+   }, [token]);
+
+   return (
+      <BrowserRouter>
+         <Switch>
+            <Route exact path="/">
+               {token ? <Redirect to="/home" /> : <Redirect to="/auth" />}
+            </Route>
+            <Route path="/home">
+               <Home />
+            </Route>
+            <Route path="/auth">
+               <Authorization />
+            </Route>
+            <Route path="/reg">
+               <Registration />
+            </Route>
+         </Switch>
+      </BrowserRouter>
+   );
 }
 
 export default App;

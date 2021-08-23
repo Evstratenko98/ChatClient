@@ -1,0 +1,27 @@
+.myMessageWrapper {
+   width: 100%;
+   display: flex;
+   justify-content: flex-end;
+   padding-right: 10px;
+}
+.messageWrapper {
+   padding-left: 10px;
+}
+.myMessage,
+.message {
+   width: fit-content;
+   max-width: 40%;
+   padding: 0.625rem;
+   border-radius: 5px;
+   background: blueviolet;
+   color: #fff;
+   margin-top: 10px;
+}
+
+.message {
+   background: darkblue;
+
+   p + p {
+      margin-top: 5px;
+   }
+}
