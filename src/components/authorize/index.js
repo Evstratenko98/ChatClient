@@ -1,7 +1,7 @@
 import React from "react";
 import Access from "../../pages/Access";
 import Download from "../download";
-import ModuleDenied from "../ModuleDenied";
+import ModuleDenied from "../moduleDenied";
 
 const Authorize = ({ module, userRole }) => {
     const permission = module.roles.includes(userRole);

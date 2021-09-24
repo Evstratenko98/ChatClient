@@ -10,7 +10,7 @@ const initialState = {
     password: "",
     age: "",
     gender: "",
-    role: "",
+    role: "user",
 };
 
 const stateHandler = (state, params) => ({ ...state, ...params });
