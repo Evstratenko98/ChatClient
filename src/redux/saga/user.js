@@ -1,10 +1,14 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import SERVICE_API from "../../api";
 import { USER_ACTION_TYPES } from "../reducers/user";
+import { types } from "../../constants/ACTION_TYPES";
 
 function* getUser({ payload }) {
     try {
-        const { data } = yield call(SERVICE_API.UserAPI.getUser, payload);
+        const { data } =
+            payload.type === types.registration
+                ? yield call(SERVICE_API.UserAPI.registration, payload)
+                : yield call(SERVICE_API.UserAPI.getUser, payload);
 
         yield put({
             type: USER_ACTION_TYPES.GET.SUCCESS,
@@ -16,6 +20,17 @@ function* getUser({ payload }) {
             payload: response.data,
         });
     }
+}
+
+function* setUser({ payload }) {
+    try {
+        const { data } = yield call(SERVICE_API.UserAPI.getUser, payload);
+
+        yield put({
+            type: USER_ACTION_TYPES.GET.SUCCESS,
+            payload: data,
+        });
+    } catch (e) {}
 }
 
 export function* UserSaga() {

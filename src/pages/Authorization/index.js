@@ -1,22 +1,26 @@
 import React, { useEffect } from "react";
-import Styles from "./index.module.scss";
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
 import { Formik } from "formik";
+import Styles from "./index.module.scss";
 import { GetUserAction, ResetAction } from "../../redux/actions/user";
 
 const Authorization = () => {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
+    const history = useHistory();
+    const { _id } = useSelector((state) => state.user);
 
     useEffect(() => {
         Cookies.remove("userId");
         dispatch(ResetAction());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // if (user._id) return <Redirect to="/" />;
+    useEffect(() => {
+        if (_id) history.push("/");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_id]);
 
     return (
         <div className={Styles.wrapper}>
@@ -26,7 +30,7 @@ const Authorization = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
-                        fill="currentColor"
+                        fill="#fff"
                         className="bi bi-chat-dots-fill"
                         viewBox="0 0 16 16"
                     >
@@ -37,8 +41,17 @@ const Authorization = () => {
 
                 <Formik
                     initialValues={{ username: "", password: "" }}
-                    onSubmit={(values) => {
+                    validate={(values) => {
+                        const errors = {};
+
+                        if (!values.username) errors.username = "Required";
+                        if (!values.password) errors.password = "Required";
+
+                        return errors;
+                    }}
+                    onSubmit={(values, actions) => {
                         dispatch(GetUserAction(values));
+                        actions.resetForm();
                     }}
                 >
                     {(props) => (
@@ -49,7 +62,6 @@ const Authorization = () => {
                                 type="text"
                                 name="username"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.username}
                             />
                             <input
@@ -58,7 +70,6 @@ const Authorization = () => {
                                 type="password"
                                 name="password"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.password}
                             />
                             {props.errors.name && <div id="feedback">{props.errors.name}</div>}

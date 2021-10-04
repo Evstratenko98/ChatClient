@@ -15,6 +15,7 @@ const PrivateRoute = (props) => {
         return () => {
             dispatch(ResetAction());
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (token) return <Route {...props} />;

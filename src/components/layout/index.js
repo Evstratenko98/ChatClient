@@ -5,21 +5,20 @@ import Registration from "../../pages/Registration";
 import NoPage from "../../pages/NoPage";
 import PrivateRoute from "../router/PrivateRoute";
 import { combineModules, routes } from "../../modules/combineModules";
-import { useAuthorize } from "../../hooks/useAuth";
-import Access from "../../pages/Access";
+import PageContainer from "../../pages/PageContainer";
 
 const Layout = () => {
-    const allowedModules = useAuthorize(routes);
-
     return (
         <Router>
             <Switch>
-                {allowedModules?.map((route) => (
+                {routes?.map((route) => (
                     <PrivateRoute
                         exact
                         key={route.path}
                         path={route.path}
-                        render={() => <Access module={combineModules.activeModule(route.name)} />}
+                        render={() => (
+                            <PageContainer module={combineModules.activeModule(route.module)} />
+                        )}
                     />
                 ))}
                 <Route exact path="/auth" component={Authorization} />

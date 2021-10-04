@@ -1,22 +1,28 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Styles from "./index.module.scss";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
-import { RegistrationAction } from "../../redux/actions/reg";
-import { ResetAction } from "../../redux/actions/user";
+import { GetUserAction, ResetAction } from "../../redux/actions/user";
+import { types } from "../../constants/ACTION_TYPES";
 
 const Registration = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { _id } = useSelector((state) => state.user);
 
     useEffect(() => {
         Cookies.remove("userId");
         dispatch(ResetAction());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // if (user._id) return <Redirect to="/" />;
+    useEffect(() => {
+        if (_id) history.push("/");
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_id]);
 
     return (
         <div className={Styles.wrapper}>
@@ -26,7 +32,7 @@ const Registration = () => {
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
-                        fill="#000"
+                        fill="#fff"
                         className="bi bi-chat-dots-fill"
                         viewBox="0 0 16 16"
                     >
@@ -42,6 +48,7 @@ const Registration = () => {
                         confirmPassword: "",
                         age: "",
                         gender: "",
+                        type: types.registration,
                     }}
                     validate={(values) => {
                         const errors = {};
@@ -56,7 +63,7 @@ const Registration = () => {
                         return errors;
                     }}
                     onSubmit={(values, actions) => {
-                        dispatch(RegistrationAction(values));
+                        dispatch(GetUserAction(values));
                         actions.resetForm();
                     }}
                 >
@@ -68,7 +75,6 @@ const Registration = () => {
                                 type="text"
                                 name="username"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.username}
                             />
                             <input
@@ -77,7 +83,6 @@ const Registration = () => {
                                 type="password"
                                 name="password"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.password}
                             />
                             <input
@@ -86,7 +91,6 @@ const Registration = () => {
                                 type="password"
                                 name="confirmPassword"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.confirmPassword}
                             />
                             <input
@@ -95,7 +99,6 @@ const Registration = () => {
                                 type="text"
                                 name="age"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.age}
                             />
                             <input
@@ -104,12 +107,10 @@ const Registration = () => {
                                 type="text"
                                 name="gender"
                                 onChange={props.handleChange}
-                                onBlur={props.handleBlur}
                                 value={props.values.gender}
                             />
-                            {/* {props.errors && <div id="feedback">Произошла ошибка</div>} */}
                             <button type="submit" className={Styles.submit}>
-                                Войти
+                                Зарегистрироваться
                             </button>
                         </form>
                     )}

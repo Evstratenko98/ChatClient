@@ -2,7 +2,7 @@ import HOR from "../HOR";
 import { ActionTypes } from "../utils/actionCreator";
 
 const { pipeHigherOrderReducers, withLoadable, withResetState } = HOR;
-export const USER_ACTION_TYPES = new ActionTypes("USER").listAT().getActionTypes();
+export const USER_ACTION_TYPES = new ActionTypes("USER").listAT().addAT().getActionTypes();
 
 const initialState = {
     _id: "",
