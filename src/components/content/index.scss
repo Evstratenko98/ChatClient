@@ -1,0 +1,43 @@
+.content {
+    height: 50vh;
+
+    &__info {
+        height: 5vh;
+        margin-top: 4px;
+        background-color: #001529;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__title {
+        color: #fff;
+    }
+
+    &__messages {
+        width: 100%;
+        padding: 10px 25px;
+        overflow-y: scroll;
+        height: 40vh;
+        background-color: #d9d9d9;
+    }
+
+    &__time {
+        margin-left: 5px;
+    }
+
+    &__form {
+        display: flex;
+        margin-top: 1rem;
+    }
+
+    &__sendMessage {
+    }
+
+    &__submit {
+        cursor: pointer;
+        background: #001529;
+        color: #fff;
+        border: 2px solid #000;
+    }
+}

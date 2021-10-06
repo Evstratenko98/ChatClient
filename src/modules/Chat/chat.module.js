@@ -1,8 +1,16 @@
 import { roles } from "../../constants/ROLES";
 import DefaultHeader from "../../components/header";
 import DefaultSider from "../../components/sider";
+import ChatContent from "../../components/content";
 import ModuleAccess from "../../components/moduleAccess";
 import ModuleDenied from "../../components/moduleDenied";
+
+import RoomsReducer from "../../redux/reducers/rooms";
+import RoomReducer from "../../redux/reducers/room";
+import MessagesReducer from "../../redux/reducers/messages";
+
+import { RoomsSaga } from "../../redux/saga/rooms";
+import { MessagesSaga } from "../../redux/saga/messages";
 
 class Chat {
     constructor() {
@@ -18,9 +26,22 @@ class Chat {
                 <DefaultHeader {...props} />
             </ModuleAccess>
         );
-        this.sider = (props) => <DefaultSider {...props} />;
-        this.reducers = () => ({});
-        this.sagas = () => [];
+        this.sider = (props) => (
+            <ModuleAccess permissions={this.permissions.header} denied={<ModuleDenied />}>
+                <DefaultSider {...props} />
+            </ModuleAccess>
+        );
+        this.content = (props) => (
+            <ModuleAccess permissions={this.permissions.header} denied={<ModuleDenied />}>
+                <ChatContent {...props} />
+            </ModuleAccess>
+        );
+        this.reducers = () => ({
+            rooms: RoomsReducer,
+            room: RoomReducer,
+            messages: MessagesReducer,
+        });
+        this.sagas = () => [RoomsSaga(), MessagesSaga()];
     }
 }
 

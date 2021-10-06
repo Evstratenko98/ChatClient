@@ -1,7 +1,11 @@
-import UserAPI from './user';
+import UserAPI from "./user";
+import RoomsAPI from "./rooms";
+import MessagesAPI from "./messages";
 
 const SERVICE_API = {
-  UserAPI
+    UserAPI,
+    RoomsAPI,
+    MessagesAPI,
 };
 
 export default SERVICE_API;

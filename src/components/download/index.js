@@ -1,8 +1,10 @@
 import React from "react";
+import { Spin } from "antd";
+import "./index.scss";
 
 const Download = () => (
-    <div>
-        <h1>Загрузка</h1>
+    <div className="download">
+        <Spin />
     </div>
 );
 

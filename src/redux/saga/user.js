@@ -22,17 +22,6 @@ function* getUser({ payload }) {
     }
 }
 
-function* setUser({ payload }) {
-    try {
-        const { data } = yield call(SERVICE_API.UserAPI.getUser, payload);
-
-        yield put({
-            type: USER_ACTION_TYPES.GET.SUCCESS,
-            payload: data,
-        });
-    } catch (e) {}
-}
-
 export function* UserSaga() {
     yield takeLatest(USER_ACTION_TYPES.GET.START, getUser);
 }
