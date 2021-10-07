@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { useDispatch } from "react-redux";
-import { GetUserAction, ResetAction } from "../../redux/actions/user";
-import { Route } from "react-router";
-import AuthLink from "./authLink";
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { GetUserAction, ResetAction } from '../../redux/actions/user';
+import AuthLink from './authLink';
 
 const PrivateRoute = (props) => {
-    const { token } = useAuth();
-    const dispatch = useDispatch();
+  const { token } = useAuth();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (token) dispatch(GetUserAction({ token }));
+  useEffect(() => {
+    if (token) dispatch(GetUserAction({ token }));
 
-        return () => {
-            dispatch(ResetAction());
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    return () => {
+      dispatch(ResetAction());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (token) return <Route {...props} />;
+  if (token) return <Route {...props} />;
 
-    return <AuthLink />;
+  return <AuthLink />;
 };
 
 export default PrivateRoute;
