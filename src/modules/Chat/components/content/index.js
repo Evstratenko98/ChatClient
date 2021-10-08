@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Input } from 'antd';
-import { Field } from 'formik';
 import io from 'socket.io-client';
 import {
   GetMessagesAction,
@@ -16,7 +15,7 @@ import Message from '../../../../components/message';
 import FormContainer from '../../../../components/forms/formContainer';
 import { URL, emits } from '../../../../constants/SOCKET';
 
-import './index.scss';
+import Styles from './index.module.scss';
 
 const { Content } = Layout;
 const socket = io(URL);
@@ -58,7 +57,7 @@ const ChatContent = () => {
   }, [messages, room]);
 
   const handleSubmit = (values, actions) => {
-    socket.emit('sendMessage', {
+    socket.emit(emits.sendMessage, {
       roomId: room._id,
       sender: username,
       text: values.text
@@ -72,11 +71,11 @@ const ChatContent = () => {
   };
 
   return (
-    <Content className="content">
-      <div className="content__info">
-        <span className="content__title">{room.title}</span>
+    <Content className={Styles.content}>
+      <div className={Styles.content__info}>
+        <span className={Styles.content__title}>{room.title}</span>
       </div>
-      <div className="content__messages">
+      <div className={Styles.content__messages}>
         {isLoading && <Download />}
         {messages.map((message) => (
           <Message
@@ -91,21 +90,21 @@ const ChatContent = () => {
 
       <FormContainer
         onSubmit={handleSubmit}
-        className="content__form"
+        className={Styles.content__form}
         validate={validation}
         initialValues={{ text: '' }}
       >
         {(props) => (
           <>
             <Input
-              className="content__sendMessage"
+              className={Styles.content__sendMessage}
               placeholder="Напишите сообщение"
               type="text"
               name="text"
               onChange={props.handleChange}
               value={props.values.text}
             />
-            <button type="submit" className="content__submit">
+            <button type="submit" className={Styles.content__submit}>
               Отправить
             </button>
           </>

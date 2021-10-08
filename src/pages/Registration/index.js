@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { Formik, Field } from 'formik';
+import { Field } from 'formik';
 import { GetUserAction, ResetAction } from '../../redux/actions/user';
 import { types } from '../../constants/ACTION_TYPES';
 import Logo from '../../components/logo';
