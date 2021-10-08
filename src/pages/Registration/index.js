@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import { GetUserAction, ResetAction } from '../../redux/actions/user';
 import { types } from '../../constants/ACTION_TYPES';
-
+import Logo from '../../components/logo';
+import FORM from '../../components/forms/index';
 import Styles from './index.module.scss';
 
+const { FormContainer } = FORM;
 const Registration = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -24,24 +26,27 @@ const Registration = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_id]);
 
+  const handleSubmit = (values) => dispatch(GetUserAction(values));
+  const validtation = (values) => {
+    const errors = {};
+
+    if (!values.username) errors.username = 'Required';
+    if (!values.password) errors.password = 'Required';
+    if (!values.age) errors.age = 'Required';
+    if (!values.gender) errors.gender = 'Required';
+    if (values.password !== values.confirmPassword) errors.confirmPassword = 'Password mismatch';
+
+    return errors;
+  };
+
   return (
     <div className={Styles.wrapper}>
       <div className={Styles.content}>
-        <Link to="/" className={Styles.logo}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="#fff"
-            className="bi bi-chat-dots-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-          </svg>
-        </Link>
+        <Logo />
         <h1 className={Styles.title}>Регистрация</h1>
-
-        <Formik
+        <FormContainer
+          onSubmit={handleSubmit}
+          validate={validtation}
           initialValues={{
             username: '',
             password: '',
@@ -50,26 +55,10 @@ const Registration = () => {
             gender: '',
             type: types.registration
           }}
-          validate={(values) => {
-            const errors = {};
-
-            if (!values.username) errors.username = 'Required';
-            if (!values.password) errors.password = 'Required';
-            if (!values.age) errors.age = 'Required';
-            if (!values.gender) errors.gender = 'Required';
-            if (values.password !== values.confirmPassword)
-              errors.confirmPassword = 'Password mismatch';
-
-            return errors;
-          }}
-          onSubmit={(values, actions) => {
-            dispatch(GetUserAction(values));
-            actions.resetForm();
-          }}
         >
           {(props) => (
-            <form onSubmit={props.handleSubmit}>
-              <input
+            <>
+              <Field
                 className={Styles.input}
                 placeholder="Введите логин"
                 type="text"
@@ -77,7 +66,7 @@ const Registration = () => {
                 onChange={props.handleChange}
                 value={props.values.username}
               />
-              <input
+              <Field
                 className={Styles.input}
                 placeholder="Введите пароль"
                 type="password"
@@ -85,7 +74,7 @@ const Registration = () => {
                 onChange={props.handleChange}
                 value={props.values.password}
               />
-              <input
+              <Field
                 className={Styles.input}
                 placeholder="Повторите пароль"
                 type="password"
@@ -93,7 +82,7 @@ const Registration = () => {
                 onChange={props.handleChange}
                 value={props.values.confirmPassword}
               />
-              <input
+              <Field
                 className={Styles.input}
                 placeholder="Введите свой возраст"
                 type="text"
@@ -101,7 +90,7 @@ const Registration = () => {
                 onChange={props.handleChange}
                 value={props.values.age}
               />
-              <input
+              <Field
                 className={Styles.input}
                 placeholder="Введите свой гендер"
                 type="text"
@@ -112,9 +101,9 @@ const Registration = () => {
               <button type="submit" className={Styles.submit}>
                 Зарегистрироваться
               </button>
-            </form>
+            </>
           )}
-        </Formik>
+        </FormContainer>
       </div>
     </div>
   );

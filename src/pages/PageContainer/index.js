@@ -10,7 +10,7 @@ const PageContainer = ({ module }) => (
       {module.sider()}
       {module.content()}
     </Layout>
-    <Footer style={{ textAlign: 'center' }}>@Project by Nero</Footer>
+    <Footer style={{ textAlign: 'center' }}>@Project by WhiteRose</Footer>
   </Layout>
 );
 

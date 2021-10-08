@@ -1,21 +1,30 @@
 .message {
-    &__wrap {
-        display: flex;
-        align-items: flex-end;
+  &__wrap {
+    display: flex;
+    align-items: flex-end;
 
-        & + & {
-            margin-top: 0.75rem;
-        }
-    }
-    &__message {
-        padding: 5px 10px;
-        background-color: #001529;
-        border-radius: 10px;
-        color: #fff;
-        width: fit-content;
+    & + & {
+      margin-top: 0.75rem;
     }
 
-    &__person {
-        margin: 0;
+    &_own {
+      display: flex;
+      justify-content: flex-end;
     }
+  }
+  &__message {
+    padding: 5px 10px;
+    background-color: #001529;
+    border-radius: 10px;
+    color: #fff;
+    width: fit-content;
+
+    &_own {
+      background-color: #391085;
+    }
+  }
+
+  &__person {
+    margin: 0;
+  }
 }
