@@ -1,22 +1,15 @@
 /* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react/react-in-jsx-scope */
 import DefaultHeader from '../../components/header';
-import ChatSider from './components/sider';
-import ChatContent from './components/content';
+import ProfileSider from './components/sider';
+import ProfileContent from './components/content';
 import ModuleAccess from '../../components/moduleAccess';
 import ModuleDenied from '../../components/moduleDenied';
-
-import RoomsReducer from './redux/reducers/rooms';
-import RoomReducer from './redux/reducers/room';
-import MessagesReducer from './redux/reducers/messages';
-
-import { RoomsSaga } from './redux/saga/rooms';
-import { MessagesSaga } from './redux/saga/messages';
 import { roles } from '../../constants/ROLES';
 
-class Chat {
+class Profile {
   constructor() {
-    this.name = 'Chat';
+    this.name = 'Profile';
     this.permissions = {
       header: [roles.user, roles.moderator, roles.administrator],
       sider: [roles.user, roles.moderator, roles.administrator],
@@ -30,21 +23,17 @@ class Chat {
     );
     this.sider = (props) => (
       <ModuleAccess permissions={this.permissions.header} denied={<ModuleDenied />}>
-        <ChatSider {...props} />
+        <ProfileSider {...props} />
       </ModuleAccess>
     );
     this.content = (props) => (
       <ModuleAccess permissions={this.permissions.header} denied={<ModuleDenied />}>
-        <ChatContent {...props} />
+        <ProfileContent {...props} />
       </ModuleAccess>
     );
-    this.reducers = () => ({
-      rooms: RoomsReducer,
-      room: RoomReducer,
-      messages: MessagesReducer
-    });
-    this.sagas = () => [RoomsSaga(), MessagesSaga()];
+    this.reducers = () => ({});
+    this.sagas = () => [];
   }
 }
 
-export default new Chat();
+export default new Profile();

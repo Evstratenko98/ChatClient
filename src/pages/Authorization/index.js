@@ -10,7 +10,7 @@ import Styles from './index.module.scss';
 
 const { FormContainer } = FORM;
 
-const Authorization = () => {
+const Authorization = (owner) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { _id } = useSelector((state) => state.user);

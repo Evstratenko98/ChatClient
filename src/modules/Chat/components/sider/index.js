@@ -7,7 +7,7 @@ import Download from '../../../../components/download';
 
 const { Sider } = Layout;
 
-const DefaultSider = () => {
+const ChatSider = () => {
   const dispatch = useDispatch();
   const { rooms, isLoading } = useSelector((state) => state.rooms);
 
@@ -36,4 +36,4 @@ const DefaultSider = () => {
   );
 };
 
-export default DefaultSider;
+export default ChatSider;
